@@ -11,6 +11,10 @@ class WebsiteController extends AbstractController
 {
     public function __construct()
     {
+        $this->validation = [
+            'user_id' => 'required',
+        ];
+
         $this->fields = [
             'id' => ModelNames::WEBSITE,
         ];
@@ -107,9 +111,18 @@ class WebsiteController extends AbstractController
      */
     public function store(Request $request)
     {
+        $extraValidation = [
+            'name' => 'required|unique:websites|max:255',
+            'url' => 'required|unique:websites|url|max:255'];
+
+        $this->validation = array_merge($this->validation, $extraValidation);
+        $request->validate($this->validation);
+
         $data = $this->requestToArray($request);
         Website::insert($data);
+
         return redirect()->action('WebsiteController@index');
+
     }
 
     /**
@@ -228,6 +241,13 @@ class WebsiteController extends AbstractController
      */
     public function update(Request $request, $id)
     {
+        $extraValidation = [
+            'name' => 'required|unique:websites,name,' . $id . '|max:255',
+            'url' => 'required|unique:websites,url,' . $id . '|url|max:255'];
+
+        $this->validation = array_merge($this->validation, $extraValidation);
+        $request->validate($this->validation);
+
         $data = $this->requestToArray($request);
         Website::whereId($id)->update($data);
         return redirect()->action('WebsiteController@index');

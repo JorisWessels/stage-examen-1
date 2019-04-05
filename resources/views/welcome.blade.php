@@ -85,9 +85,10 @@
                 </div>
 
                 <div class="links">
-                    <a href="http://localhost:8000/website">Websites</a>
-                    <a href="http://localhost:8000/vasttag">Vasttags</a>
-                    <a href="http://localhost:8000/zone">Zones</a>
+                    <a href="http://localhost:8000/user">User Overzicht</a>
+                    <a href="http://localhost:8000/website">Crud Websites</a>
+                    <a href="http://localhost:8000/vasttag">Crud Vasttags</a>
+                    <a href="http://localhost:8000/zone">Crud Zones</a>
                 </div>
             </div>
         </div>

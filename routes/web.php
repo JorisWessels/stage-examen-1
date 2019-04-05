@@ -18,6 +18,7 @@ Route::get('/', function () {
 Route::resource('/website', 'WebsiteController');
 Route::resource('/vasttag', 'VasttagController');
 Route::resource('/zone', 'ZoneController');
+Route::resource('/user', 'UserController');
 
 Auth::routes();
 
