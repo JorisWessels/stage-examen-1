@@ -85,8 +85,9 @@
                 </div>
 
                 <div class="links">
-                    <a href="https://laravel.com/docs">Documentation</a>
-                    <a href="https://laracasts.com">Laracasts</a>
+                    <a href="http://localhost:8000/website">Websites</a>
+                    <a href="http://localhost:8000/vasttag">Vasttags</a>
+                    <a href="http://localhost:8000/zone">Zones</a>
                 </div>
             </div>
         </div>

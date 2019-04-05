@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Modelnames\ModelNames;
 use App\Vasttag;
+use App\Zone;
 use Illuminate\Http\Request;
 
 class VasttagController extends AbstractController
@@ -12,9 +14,46 @@ class VasttagController extends AbstractController
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        $this->fields = [
+            'id' => ModelNames::VASTTAG,
+        ];
+
+        $this->data['content'] = ModelNames::VASTTAGS;
+        $this->data['route'] = ModelNames::VASTTAG;
+    }
+
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index()
     {
-        //
+        $this->getAllItems(Vasttag::all());
+        $allFields = [];
+        $extraFields = [
+            [
+                'name' => 'ID',
+                'value' => 'id',
+                'type' => 'text',
+            ],
+            [
+                'name' => 'Provider',
+                'value' => 'provider_name',
+                'type' => 'text',
+            ],
+            [
+                'name' => 'Url',
+                'value' => 'url',
+                'type' => 'text',
+            ],
+        ];
+
+        foreach ($extraFields as $field) {
+            $allFields[] = array_merge($this->fields, $field);
+        }
+        $this->data['tablefields'] = $allFields;
+        return view('content.index', $this->data);
     }
 
     /**
@@ -24,62 +63,171 @@ class VasttagController extends AbstractController
      */
     public function create()
     {
-        //
+        $allFields = [];
+        $extraFields = [
+            [
+                'name' => 'provider_name',
+                'label' => 'Provider Name',
+                'type' => 'text',
+            ],
+            [
+                'name' => 'url',
+                'label' => 'Url',
+                'type' => 'text',
+            ],
+            [
+                'name' => 'zone_id',
+                'label' => 'Zone',
+                'type' => 'dropdown',
+                'data' => Zone::all(),
+                'key' => 'div_tag',
+            ],
+        ];
+
+        foreach ($extraFields as $field) {
+            $allFields[] = array_merge($this->fields, $field);
+        }
+        $this->data['inputfields'] = $allFields;
+        return view('content.create', $this->data);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        //
+        $data = $this->requestToArray($request);
+        Vasttag::insert($data);
+        return redirect()->action('VasttagController@index');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Vasttag  $vasttag
+     * @param $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Vasttag $vasttag)
+    public function show($id)
     {
-        //
+        $category = [];
+        $categoryFields = [];
+        $this->getOneItem(Vasttag::find($id));
+
+        $categoryFields ['details'] = [
+            [
+                'name' => 'id',
+                'label' => 'ID',
+                'type' => 'text',
+                'value' => 'id',
+            ],
+            [
+                'name' => 'provider_name',
+                'label' => 'Name',
+                'value' => 'provider_name',
+                'type' => 'text',
+            ],
+            [
+                'name' => 'url',
+                'label' => 'Url',
+                'value' => 'url',
+                'type' => 'text',
+            ],
+            [
+                'name' => 'zone_id',
+                'label' => 'Zone',
+                'value' => 'div_tag',
+                'type' => 'text',
+                'relation' => 'zone',
+            ],
+            [
+                'name' => 'active',
+                'label' => 'Active',
+                'value' => 'active',
+                'type' => 'boolean',
+            ],
+        ];
+
+        foreach ($categoryFields as & $categoryField) {
+            foreach ($categoryField as $key => $field) {
+                $categoryField [$key] = array_merge($field, $this->fields);
+            }
+        }
+
+        $category [] = [
+            'title' => 'Vasttag Details',
+            'fields' => $categoryFields['details'],
+        ];
+
+        $this->data['categories'] = $category;
+        return view('content.show', $this->data);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Vasttag  $vasttag
+     * @param  \App\Vasttag $vasttag
      * @return \Illuminate\Http\Response
      */
-    public function edit(Vasttag $vasttag)
+    public function edit($id)
     {
-        //
+        $this->getOneItem(Vasttag::find($id));
+        $allFields = [];
+        $extraFields = [
+            [
+                'name' => 'provider_name',
+                'label' => 'Provider Name',
+                'type' => 'text',
+                'value' => 'provider_name',
+            ],
+            [
+                'name' => 'url',
+                'label' => 'Url',
+                'type' => 'text',
+                'value' => 'url',
+            ],
+            [
+                'name' => 'zone_id',
+                'label' => 'Zone',
+                'type' => 'dropdown',
+                'data' => Zone::all(),
+                'key' => 'div_tag',
+                'value' => 'zone_id',
+            ],
+        ];
+
+        foreach ($extraFields as $field) {
+            $allFields[] = array_merge($this->fields, $field);
+        }
+        $this->data['inputfields'] = $allFields;
+        return view('content.create', $this->data);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Vasttag  $vasttag
+     * @param  \Illuminate\Http\Request $request
+     * @param  \App\Vasttag $vasttag
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Vasttag $vasttag)
+    public function update(Request $request, $id)
     {
-        //
+        $data = $this->requestToArray($request);
+        Vasttag::whereId($id)->update($data);
+        return redirect()->action('VasttagController@index');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Vasttag  $vasttag
+     * @param  \App\Vasttag $vasttag
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Vasttag $vasttag)
+    public function destroy($id)
     {
-        //
+        $this->deleteItem(Vasttag::find($id));
+        return redirect()->action('VasttagController@index');
     }
 }
