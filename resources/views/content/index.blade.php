@@ -27,6 +27,9 @@
                     @foreach($tablefields as $field)
                         <th>{{$field['name']}}</th>
                     @endforeach
+                    @if(isset($onlyShow))
+                        <th>{{__('User Websites')}}</th>
+                    @endif
                     @if(!isset($onlyShow))
                         <th>{{__('View')}}</th>
                         <th>{{__('Edit')}}</th>
@@ -39,6 +42,11 @@
                         @foreach($tablefields as $field)
                             @include('form.tablefields.'.$field['type'], $field)
                         @endforeach
+                        @if(isset($onlyShow))
+                            <td><a href="{{URL::to('/website')}}">
+                                    <button class="btn btn-dark">Websites</button>
+                                </a></td>
+                        @endif
                         @if(!isset($onlyShow))
                             <td><a href="{{URL::to($route.'/'.$dataName->id)}}">
                                     <button class="btn btn-dark">View</button>
