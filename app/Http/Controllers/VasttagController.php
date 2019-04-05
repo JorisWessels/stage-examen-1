@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Vasttag;
 use Illuminate\Http\Request;
 
-class VasttagController extends Controller
+class VasttagController extends AbstractController
 {
     /**
      * Display a listing of the resource.

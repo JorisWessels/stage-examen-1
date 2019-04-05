@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Website;
 use Illuminate\Http\Request;
 
-class WebsiteController extends Controller
+class WebsiteController extends AbstractController
 {
     /**
      * Display a listing of the resource.

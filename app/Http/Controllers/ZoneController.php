@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Zone;
 use Illuminate\Http\Request;
 
-class ZoneController extends Controller
+class ZoneController extends AbstractController
 {
     /**
      * Display a listing of the resource.

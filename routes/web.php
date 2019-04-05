@@ -14,3 +14,7 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::resource('/website', 'WebsiteController');
+Route::resource('/vasttag', 'VasttagController');
+Route::resource('/zone', 'ZoneController');
