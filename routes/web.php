@@ -16,5 +16,10 @@ Route::get('/', function () {
 });
 
 Route::resource('/website', 'WebsiteController');
+
 Route::resource('/vasttag', 'VasttagController');
 Route::resource('/zone', 'ZoneController');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

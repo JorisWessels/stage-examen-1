@@ -7,17 +7,24 @@
     <title>Joris-Examen</title>
 
     @section('head')
-
+        <script src="{{ asset('js/app.js') }}" defer></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     @show
 
     @section('page-css')
-        <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+    <!-- Fonts -->
+        <link rel="dns-prefetch" href="//fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
+
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
         {{-- page specific css --}}
     @show
 </head>
 <body>
 @section('body')
-    @yield('content')
+    @yield('main-content')
 @show
 @section('footer')
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
