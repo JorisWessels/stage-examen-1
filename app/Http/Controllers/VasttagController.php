@@ -9,11 +9,6 @@ use Illuminate\Http\Request;
 
 class VasttagController extends AbstractController
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function __construct()
     {
         $this->fields = [
@@ -46,6 +41,12 @@ class VasttagController extends AbstractController
                 'name' => 'Url',
                 'value' => 'url',
                 'type' => 'text',
+            ],
+            [
+                'name' => 'Zone',
+                'value' => 'div_tag',
+                'type' => 'text',
+                'relation' => 'zone',
             ],
         ];
 
@@ -142,12 +143,6 @@ class VasttagController extends AbstractController
                 'type' => 'text',
                 'relation' => 'zone',
             ],
-            [
-                'name' => 'active',
-                'label' => 'Active',
-                'value' => 'active',
-                'type' => 'boolean',
-            ],
         ];
 
         foreach ($categoryFields as & $categoryField) {
@@ -202,7 +197,7 @@ class VasttagController extends AbstractController
             $allFields[] = array_merge($this->fields, $field);
         }
         $this->data['inputfields'] = $allFields;
-        return view('content.create', $this->data);
+        return view('content.edit', $this->data);
     }
 
     /**

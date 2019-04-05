@@ -10,4 +10,9 @@ class Zone extends Model
     {
         return $this->hasOne(Vasttag::class);
     }
+
+    public function website()
+    {
+        return $this->belongsTo(Website::class);
+    }
 }

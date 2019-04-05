@@ -10,4 +10,9 @@ class Website extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function zone()
+    {
+        return $this->hasOne(Zone::class);
+    }
 }
