@@ -11,6 +11,10 @@ class VasttagController extends AbstractController
 {
     public function __construct()
     {
+        $this->validation = [
+            'zone_id' => 'required',
+        ];
+
         $this->fields = [
             'id' => ModelNames::VASTTAG,
         ];
@@ -100,6 +104,13 @@ class VasttagController extends AbstractController
      */
     public function store(Request $request)
     {
+        $extraValidation = [
+            'provider_name' => 'required|unique:vasttags|max:255',
+            'url' => 'required|unique:vasttags|url|max:255'];
+
+        $this->validation = array_merge($this->validation, $extraValidation);
+        $request->validate($this->validation);
+
         $data = $this->requestToArray($request);
         Vasttag::insert($data);
         return redirect()->action('VasttagController@index');
@@ -209,6 +220,13 @@ class VasttagController extends AbstractController
      */
     public function update(Request $request, $id)
     {
+        $extraValidation = [
+            'provider_name' => 'required|unique:vasttags,provider_name,' . $id . '|max:255',
+            'url' => 'required|unique:websites,url,' . $id . '|url|max:255'];
+
+        $this->validation = array_merge($this->validation, $extraValidation);
+        $request->validate($this->validation);
+
         $data = $this->requestToArray($request);
         Vasttag::whereId($id)->update($data);
         return redirect()->action('VasttagController@index');
