@@ -258,6 +258,7 @@ class WebsiteController extends AbstractController
      *
      * @param $id
      * @return void
+     * @throws \Exception
      */
 
     public function destroy($id)

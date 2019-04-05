@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Modelnames\ModelNames;
 use App\User;
-use Illuminate\Http\Request;
 
 class UserController extends AbstractController
 {
@@ -51,5 +50,10 @@ class UserController extends AbstractController
         }
         $this->data['tablefields'] = $allFields;
         return view('content.index', $this->data);
+    }
+
+    public function assignedWebsites()
+    {
+
     }
 }

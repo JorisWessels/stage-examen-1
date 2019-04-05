@@ -174,7 +174,7 @@ class VasttagController extends AbstractController
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Vasttag $vasttag
+     * @param $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -215,7 +215,7 @@ class VasttagController extends AbstractController
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @param  \App\Vasttag $vasttag
+     * @param $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -235,8 +235,9 @@ class VasttagController extends AbstractController
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Vasttag $vasttag
+     * @param $id
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
     public function destroy($id)
     {

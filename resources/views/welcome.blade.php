@@ -81,7 +81,7 @@
 
         <div class="content">
                 <div class="title m-b-md">
-                    E-heroes Laravel
+                    Overzicht Admin
                 </div>
 
                 <div class="links">

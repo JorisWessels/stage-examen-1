@@ -11,6 +11,10 @@ class ZoneController extends AbstractController
 {
     public function __construct()
     {
+        $this->validation = [
+            'website_id' => 'required',
+        ];
+
         $this->fields = [
             'id' => ModelNames::ZONE,
         ];
@@ -22,7 +26,7 @@ class ZoneController extends AbstractController
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index()
     {
@@ -39,18 +43,13 @@ class ZoneController extends AbstractController
                 'value' => 'div_tag',
                 'type' => 'text',
             ],
-            [
-                'name' => 'Website',
-                'value' => 'url',
-                'type' => 'text',
-                'relation' => 'website',
-            ],
         ];
 
         foreach ($extraFields as $field) {
             $allFields[] = array_merge($this->fields, $field);
         }
         $this->data['tablefields'] = $allFields;
+
         return view('content.index', $this->data);
     }
 
@@ -92,6 +91,12 @@ class ZoneController extends AbstractController
      */
     public function store(Request $request)
     {
+        $extraValidation = [
+            'div_tag' => 'required|unique:zones|max:255'];
+
+        $this->validation = array_merge($this->validation, $extraValidation);
+        $request->validate($this->validation);
+
         $data = $this->requestToArray($request);
         Zone::insert($data);
         return redirect()->action('ZoneController@index');
@@ -183,12 +188,18 @@ class ZoneController extends AbstractController
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Zone  $zone
+     * @param  \Illuminate\Http\Request $request
+     * @param $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
+        $extraValidation = [
+            'div_tag' => 'required|unique:zones,div_tag,' . $id . '|max:255'];
+
+        $this->validation = array_merge($this->validation, $extraValidation);
+        $request->validate($this->validation);
+
         $data = $this->requestToArray($request);
         Zone::whereId($id)->update($data);
         return redirect()->action('ZoneController@index');
@@ -197,8 +208,9 @@ class ZoneController extends AbstractController
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Zone  $zone
+     * @param $id
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
     public function destroy($id)
     {

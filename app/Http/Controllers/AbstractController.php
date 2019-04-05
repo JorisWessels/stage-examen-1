@@ -14,6 +14,11 @@ class AbstractController extends Controller
     protected $name = 'dataNames';
     protected $singularName = 'dataName';
 
+    /**
+     * @param Collection $collection
+     * @param string|null $name
+     * @return array
+     */
     protected function getAllItems(Collection $collection, string $name = null)
     {
         if (!is_null($name))
@@ -27,6 +32,10 @@ class AbstractController extends Controller
         return ($this->data);
     }
 
+    /**
+     * @param $request
+     * @return mixed
+     */
     protected function requestToArray($request)
     {
         $data = $request->except('_method', '_token','create', 'edit', 'password_confirm');
@@ -34,6 +43,10 @@ class AbstractController extends Controller
         return($data);
     }
 
+    /**
+     * @param Model $model
+     * @return array
+     */
     protected function getOneItem(Model $model)
     {
         $this->data[$this->singularName] = $model;
@@ -41,6 +54,10 @@ class AbstractController extends Controller
         return ($this->data);
     }
 
+    /**
+     * @param Model $model
+     * @throws \Exception
+     */
     protected function deleteItem(Model $model)
     {
         $model->delete();
