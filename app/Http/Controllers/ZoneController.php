@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Modelnames\ModelNames;
+use App\Vasttag;
 use App\Website;
 use App\Zone;
 use Illuminate\Http\Request;
@@ -214,6 +215,7 @@ class ZoneController extends AbstractController
      */
     public function destroy($id)
     {
+        Vasttag::where('zone_id', $id)->delete();
         $this->deleteItem(Zone::find($id));
         return redirect()->action('ZoneController@index');
     }

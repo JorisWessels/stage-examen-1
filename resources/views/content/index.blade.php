@@ -38,31 +38,35 @@
                 </thead>
                 <tbody>
                 @foreach($dataNames as $dataName)
-                    <tr>
-                        @foreach($tablefields as $field)
-                            @include('form.tablefields.'.$field['type'], $field)
-                        @endforeach
-                        @if(isset($onlyShow))
-                            <td><a href="{{URL::to('/website')}}">
-                                    <button class="btn btn-dark">Websites</button>
-                                </a></td>
-                        @endif
-                        @if(!isset($onlyShow))
-                            <td><a href="{{URL::to($route.'/'.$dataName->id)}}">
-                                    <button class="btn btn-dark">View</button>
-                                </a></td>
-                            <td><a href="{{URL::to($route.'/'.$dataName->id.'/edit')}}">
-                                    <button class="btn btn-warning">Edit</button>
-                                </a></td>
-                            <form action="{{route($route.'.destroy', $dataName->id)}}" method="post">
-                                @csrf
-                                @method('DELETE')
-                                <td>
-                                    <button class="btn btn-danger" type="submit">Delete</button>
-                                </td>
-                            </form>
-                        @endif
-                    </tr>
+                    @if(!isset($dataName->deleted_at))
+                        <tr>
+                            @foreach($tablefields as $field)
+                                @include('form.tablefields.'.$field['type'], $field)
+                            @endforeach
+                            @if(isset($onlyShow))
+                                <td><a href="{{URL::to('/website')}}">
+                                        <button class="btn btn-dark">Websites</button>
+                                    </a></td>
+                            @endif
+                            @if(!isset($onlyShow))
+                                <td><a href="{{URL::to($route.'/'.$dataName->id)}}">
+                                        <button class="btn btn-dark">View</button>
+                                    </a></td>
+                                <td><a href="{{URL::to($route.'/'.$dataName->id.'/edit')}}">
+                                        <button class="btn btn-warning">Edit</button>
+                                    </a></td>
+                                <form action="{{route($route.'.destroy', $dataName->id)}}" method="post">
+                                    @csrf
+                                    @method('DELETE')
+                                    <td>
+                                        <button class="btn btn-danger" type="submit"
+                                                onclick="return confirm('Weet u het zeker?')">Delete
+                                        </button>
+                                    </td>
+                                </form>
+                            @endif
+                        </tr>
+                    @endif
                 @endforeach
                 </tbody>
             </table>

@@ -7,3 +7,4 @@
         <td>{{$dataName->$value}}</td>
     @endif
 @endif
+

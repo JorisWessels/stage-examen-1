@@ -5,17 +5,22 @@
             <option value selected="selected">Choose an option</option>
             @if(isset($value))
                 @foreach($data as $item)
-                    @if(intval($dataName->$value) === $item->id)
-                        <option selected value="{{$item->id}}">{{$item->$key}}</option>
-                    @else
-                        <option value="{{$item->id}}">{{$item->$key}}</option>
+                    @if(!isset($item->deleted_at))
+                        @if(intval($dataName->$value) === $item->id)
+                            <option selected value="{{$item->id}}">{{$item->$key}}</option>
+                        @else
+                            <option value="{{$item->id}}">{{$item->$key}}</option>
+                        @endif
                     @endif
                 @endforeach
             @else
                 @foreach($data as $item)
-                    <option value="{{$item->id}}">{{$item->$key,45}}</option>
+                    @if(!isset($item->deleted_at))
+                        <option value="{{$item->id}}">{{$item->$key,45}}</option>
+                    @endif
                 @endforeach
             @endif
+
         </select>
     </div>
 </div>

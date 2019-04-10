@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Modelnames\ModelNames;
 use App\User;
+use App\Vasttag;
 use App\Website;
+use App\Zone;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class WebsiteController extends AbstractController
@@ -30,6 +33,7 @@ class WebsiteController extends AbstractController
      */
     public function index()
     {
+
         $this->getAllItems(Website::all());
         $allFields = [];
         $extraFields = [
@@ -133,6 +137,8 @@ class WebsiteController extends AbstractController
      */
     public function show($id)
     {
+        $website = Website::all()->where("user_id", "=", $id);
+
         $category = [];
         $categoryFields = [];
         $this->getOneItem(Website::find($id));
@@ -263,7 +269,13 @@ class WebsiteController extends AbstractController
 
     public function destroy($id)
     {
-        $this->deleteItem(Website::find($id));
+        Website::where('id', $id)->update(['deleted_at' => Carbon::now()]);
+        $zones = Zone::where('website_id', $id)->get();
+        foreach ($zones as $zone) {
+            Vasttag::where('zone_id', $zone->id)->delete();
+        }
+        Zone::where('website_id', $id)->delete();
+
         return redirect()->action('WebsiteController@index');
     }
 }
